@@ -14,7 +14,7 @@ async function search() {
     resultDiv.innerText = "🌐 正在抓取网页并总结...";
 
     try {
-      const res = await fetch("你的Python服务器地址/api/summarize", {
+      const res = await fetch("https://test-1-5r5k.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
