@@ -7,14 +7,13 @@ async function search() {
     return;
   }
 
-  // 判断是否是URL
   const isURL = input.startsWith("http://") || input.startsWith("https://");
 
   if (isURL) {
-    resultDiv.innerText = "🌐 正在抓取网页并总结...";
+    resultDiv.innerText = "🌐 正在抓取网页...";
 
     try {
-      const res = await fetch("https://test-1-5r5k.onrender.com/api/summarize"), {
+      const res = await fetch("https://test-1-5r5k.onrender.com/api/summarize", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -30,12 +29,12 @@ async function search() {
         resultDiv.innerText =
           "📄 标题：\n" + data.title + "\n\n🧠 摘要：\n" + data.summary;
       }
+
     } catch (err) {
-      resultDiv.innerText = "❌ 网页抓取失败";
+      resultDiv.innerText = "❌ 请求失败";
     }
 
   } else {
-    // 原AI功能
     resultDiv.innerText = "🤖 AI思考中...";
 
     try {
