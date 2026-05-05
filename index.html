@@ -3,90 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <title>SearchWUT</title>
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      font-family: Arial;
+      max-width: 1000px;
+      margin: 40px auto;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .panel {
+      flex: 1;
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    input {
+      width: 70%;
+      padding: 8px;
+    }
+
+    button {
+      padding: 8px 15px;
+    }
+
+    .result {
+      margin-top: 10px;
+      height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      background: #fff;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="app">
+<h1>🔍 SearchWUT</h1>
 
-  <h1 class="title">SearchWUT</h1>
+<div class="container">
 
-  <div class="search-box">
-    <input id="input" type="text" placeholder="输入网页url或你的问题..." />
-    <button onclick="search()">搜索</button>
+  <!-- 🌐 网页总结 -->
+  <div class="panel">
+    <h2>🌐 网页总结</h2>
+    <input id="urlInput" placeholder="输入网页URL..." />
+    <button onclick="summarize()">分析</button>
+    <div id="result1" class="result"></div>
   </div>
 
-  <div id="result" class="result-card"></div>
-
-  <footer>
-    <p><strong>🌐 AI智能搜索引擎</strong></p>
-
-    <p>👨‍💻 Nitro0607</p>
-
-    <p>
-      📧 Email：
-      <a href="mailto:1295422173@qq.com">1295422173@qq.com</a>
-    </p>
-
-    <p>
-      💻 GitHub：
-      <a href="https://github.com/nitro0607" target="_blank">
-        https://github.com/nitro0607
-      </a>
-    </p>
-
-    <p style="margin-top:10px; color:#888;">
-      © 2026 All Rights Reserved
-    </p>
-  </footer>
+  <!-- 💬 聊天 -->
+  <div class="panel">
+    <h2>💬 AI聊天</h2>
+    <input id="chatInput" placeholder="输入问题..." />
+    <button onclick="chat()">发送</button>
+    <div id="result2" class="result"></div>
+  </div>
 
 </div>
 
-<!-- ✅ 直接内嵌 JS（避免 script.js 路径问题） -->
 <script>
-async function search() {
-  const input = document.getElementById("input").value.trim();
-  const resultDiv = document.getElementById("result");
+const API_BASE = "https://test-1-5r5k.onrender.com";
 
-  if (!input) {
-    resultDiv.innerText = "⚠️ 请输入内容";
-    return;
+// =====================
+// 🌐 网页总结
+// =====================
+async function summarize() {
+  const input = document.getElementById("urlInput").value.trim();
+  const result = document.getElementById("result1");
+
+  result.innerText = "🧠 分析中...\n";
+
+  const res = await fetch(API_BASE + "/api/summarize", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ url: input })
+  });
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+
+  result.innerText = "";
+
+  while (true) {
+    const {done, value} = await reader.read();
+    if (done) break;
+    result.innerText += decoder.decode(value);
+  }
+}
+
+
+// =====================
+// 💬 多轮聊天
+// =====================
+let messages = [
+  { role: "system", content: "你是一个AI助手" }
+];
+
+async function chat() {
+  const input = document.getElementById("chatInput");
+  const result = document.getElementById("result2");
+
+  const text = input.value.trim();
+  if (!text) return;
+
+  messages.push({ role: "user", content: text });
+
+  result.innerText += "\n👤：" + text + "\n🤖：";
+
+  input.value = "";
+
+  const res = await fetch(API_BASE + "/api/chat", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ messages: messages })
+  });
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+
+  let reply = "";
+
+  while (true) {
+    const {done, value} = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value);
+    reply += chunk;
+    result.innerText += chunk;
   }
 
-  // ✅ loading 状态
-  resultDiv.innerText = "🧠 AI正在思考中...\n\n";
-
-  try {
-    const res = await fetch("https://test-1-5r5k.onrender.com/api/summarize", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ url: input })
-    });
-
-    if (!res.ok) {
-      resultDiv.innerText = "❌ 服务器错误：" + res.status;
-      return;
-    }
-
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder("utf-8");
-
-    // 清空再开始流式写入
-    resultDiv.innerText = "";
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      const chunk = decoder.decode(value);
-      resultDiv.innerText += chunk;
-    }
-
-  } catch (err) {
-    resultDiv.innerText = "❌ 请求失败，请检查后端或网络";
-  }
+  messages.push({ role: "assistant", content: reply });
+  result.innerText += "\n\n";
 }
 </script>
 
