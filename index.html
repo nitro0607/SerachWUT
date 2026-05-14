@@ -1,232 +1,253 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <title>SearchWUT</title>
+<meta charset="UTF-8">
+<title>SearchWUT</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Arial;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #333;
-    }
+<style>
 
-    .app {
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 20px;
-    }
+body{
+    margin:0;
+    font-family:Arial;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+}
 
-    h1 {
-      text-align: center;
-      color: white;
-      margin-bottom: 30px;
-    }
+.app{
+    max-width:1100px;
+    margin:40px auto;
+    padding:20px;
+}
 
-    .container {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+h1{
+    text-align:center;
+    color:white;
+}
 
-    .panel {
-      flex: 1;
-      min-width: 320px;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
+.container{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
 
-    .panel h2 {
-      margin-top: 0;
-    }
+.panel{
+    flex:1;
+    min-width:320px;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
 
-    input {
-      width: 65%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      outline: none;
-      font-size: 14px;
-    }
+input{
+    width:70%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
 
-    input:focus {
-      border-color: #667eea;
-    }
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    background:#667eea;
+    color:white;
+    cursor:pointer;
+}
 
-    button {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 8px;
-      background: #667eea;
-      color: white;
-      cursor: pointer;
-      transition: 0.2s;
-      margin-left: 5px;
-    }
+button:hover{
+    background:#4f5bd5;
+}
 
-    button:hover {
-      background: #5563c1;
-    }
+.result{
+    margin-top:15px;
+    height:420px;
+    overflow-y:auto;
+    white-space:pre-wrap;
+    background:#f5f5f5;
+    padding:10px;
+    border-radius:8px;
+    line-height:1.6;
+}
 
-    .result {
-      margin-top: 15px;
-      height: 320px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      background: #f9f9f9;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      line-height: 1.6;
-    }
+footer{
+    margin-top:40px;
+    text-align:center;
+    color:white;
+}
 
-    footer {
-      margin-top: 40px;
-      text-align: center;
-      color: white;
-      font-size: 14px;
-      opacity: 0.9;
-    }
+footer a{
+    color:#ffd86b;
+}
 
-    footer a {
-      color: #ffd86b;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <h1>🔍 SearchWUT</h1>
+<h1>🔍 SearchWUT</h1>
 
-  <div class="container">
+<div class="container">
 
-    <!-- 🌐 网页总结 -->
+    <!-- 🌐 URL分析 -->
     <div class="panel">
-      <h2>🌐 网页总结</h2>
-      <input id="urlInput" placeholder="输入网页URL..." />
-      <button onclick="summarize()">分析</button>
-      <div id="result1" class="result"></div>
+        <h2>🌐 URL分析器</h2>
+
+        <input id="urlInput" placeholder="输入网页URL...">
+        <button onclick="summarize()">分析</button>
+
+        <div id="result1" class="result"></div>
     </div>
 
     <!-- 💬 AI聊天 -->
     <div class="panel">
-      <h2>💬 AI聊天</h2>
-      <input id="chatInput" placeholder="输入你的问题..." />
-      <button onclick="chat()">发送</button>
-      <div id="result2" class="result"></div>
+        <h2>💬 AI聊天</h2>
+
+        <input id="chatInput" placeholder="输入问题...">
+        <button onclick="chat()">发送</button>
+
+        <div id="result2" class="result"></div>
     </div>
 
-  </div>
+</div>
 
-  <!-- 👇 页脚（你的信息） -->
-  <footer>
-    <p><strong>🌐 AI智能搜索引擎</strong></p>
-    <p>👨‍💻 作者：Nitro0607</p>
+<footer>
 
-    <p>
-      📧 Email：
-      <a href="mailto:1295422173@qq.com">1295422173@qq.com</a>
-    </p>
+<p><strong>🌐 SearchWUT</strong></p>
 
-    <p>
-      💻 GitHub：
-      <a href="https://github.com/nitro0607" target="_blank">
-        github.com/nitro0607
-      </a>
-    </p>
+<p>👨‍💻 作者：Nitro0607</p>
 
-    <p style="margin-top:10px;">
-      © 2026 SearchWUT
-    </p>
-  </footer>
+<p>
+📧 Email：
+<a href="mailto:1295422173@qq.com">
+1295422173@qq.com
+</a>
+</p>
+
+<p>
+💻 GitHub：
+<a href="https://github.com/nitro0607" target="_blank">
+github.com/nitro0607
+</a>
+</p>
+
+<p>© 2026 SearchWUT</p>
+
+</footer>
 
 </div>
 
 <script>
+
 const API_BASE = "https://test-1-5r5k.onrender.com";
 
-// 🌐 网页总结
-async function summarize() {
-  const input = document.getElementById("urlInput").value.trim();
-  const result = document.getElementById("result1");
+// ====================
+// 🌐 URL分析
+// ====================
+async function summarize(){
 
-  if (!input) {
-    result.innerText = "请输入URL";
-    return;
-  }
+    const input=document.getElementById("urlInput").value.trim();
+    const result=document.getElementById("result1");
 
-  result.innerText = "🧠 分析中...\n";
+    if(!input){
+        result.innerText="请输入URL";
+        return;
+    }
 
-  const res = await fetch(API_BASE + "/api/summarize", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ url: input })
-  });
+    result.innerText="🧠 分析中...\n";
 
-  const reader = res.body.getReader();
-  const decoder = new TextDecoder();
+    const res=await fetch(API_BASE+"/api/summarize",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            url:input
+        })
+    });
 
-  result.innerText = "";
+    const reader=res.body.getReader();
+    const decoder=new TextDecoder();
 
-  while (true) {
-    const {done, value} = await reader.read();
-    if (done) break;
-    result.innerText += decoder.decode(value);
-  }
+    result.innerText="";
+
+    while(true){
+
+        const {done,value}=await reader.read();
+
+        if(done) break;
+
+        result.innerText+=decoder.decode(value);
+    }
 }
 
 
-// 💬 多轮聊天
-let messages = [
-  { role: "system", content: "你是一个有帮助的AI助手" }
+// ====================
+// 💬 AI聊天
+// ====================
+
+let messages=[
+    {
+        role:"system",
+        content:"你是一个有帮助的AI助手"
+    }
 ];
 
-async function chat() {
-  const input = document.getElementById("chatInput");
-  const result = document.getElementById("result2");
+async function chat(){
 
-  const text = input.value.trim();
-  if (!text) return;
+    const input=document.getElementById("chatInput");
+    const result=document.getElementById("result2");
 
-  messages.push({ role: "user", content: text });
+    const text=input.value.trim();
 
-  result.innerText += "\n👤：" + text + "\n🤖：";
+    if(!text) return;
 
-  input.value = "";
+    messages.push({
+        role:"user",
+        content:text
+    });
 
-  const res = await fetch(API_BASE + "/api/chat", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ messages: messages })
-  });
+    result.innerText+="\n👤："+text+"\n🤖：";
 
-  const reader = res.body.getReader();
-  const decoder = new TextDecoder();
+    input.value="";
 
-  let reply = "";
+    const res=await fetch(API_BASE+"/api/chat",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            messages:messages
+        })
+    });
 
-  while (true) {
-    const {done, value} = await reader.read();
-    if (done) break;
+    const reader=res.body.getReader();
+    const decoder=new TextDecoder();
 
-    const chunk = decoder.decode(value);
-    reply += chunk;
-    result.innerText += chunk;
-  }
+    let reply="";
 
-  messages.push({ role: "assistant", content: reply });
-  result.innerText += "\n\n";
+    while(true){
+
+        const {done,value}=await reader.read();
+
+        if(done) break;
+
+        const chunk=decoder.decode(value);
+
+        reply+=chunk;
+
+        result.innerText+=chunk;
+    }
+
+    messages.push({
+        role:"assistant",
+        content:reply
+    });
+
+    result.innerText+="\n\n";
 }
+
 </script>
 
 </body>
