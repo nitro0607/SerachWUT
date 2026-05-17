@@ -12,6 +12,8 @@ NEWS_URL = "https://news.whut.edu.cn/"
 
 def crawl_campus_news():
 
+    print("开始抓取校园资讯")
+
     try:
 
         headers = {
@@ -26,6 +28,7 @@ def crawl_campus_news():
 
         response.raise_for_status()
 
+        # 中文编码修复
         response.encoding = response.apparent_encoding
 
         soup = BeautifulSoup(
@@ -49,7 +52,18 @@ def crawl_campus_news():
             if not href:
                 continue
 
-            if len(title) < 8:
+            # 标题长度过滤
+            if len(title) < 10:
+                continue
+
+            # 只保留新闻正文链接
+            if not (
+                "/2026/" in href
+                or
+                "/xw/" in href
+                or
+                "/zhxw/" in href
+            ):
                 continue
 
             full_url = urljoin(
@@ -57,9 +71,14 @@ def crawl_campus_news():
                 href
             )
 
+            print("抓到资讯：", title)
+
             save_news(
+
                 title,
+
                 "武汉理工大学校园资讯",
+
                 full_url
             )
 
@@ -67,6 +86,8 @@ def crawl_campus_news():
 
             if count >= 20:
                 break
+
+        print(f"资讯抓取完成，共{count}条")
 
     except Exception as e:
 
