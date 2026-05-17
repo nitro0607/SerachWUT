@@ -8,7 +8,7 @@ from database import save_news
 # 校园网站列表
 CAMPUS_SITES = [
 
-    "https://news.whut.edu.cn/",
+    "https://i.whut.edu.cn/xxtg/",
 
 ]
 
