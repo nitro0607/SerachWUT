@@ -1,9 +1,7 @@
 from flask import Flask, request, jsonify, render_template
-
 from flask_cors import CORS
 
 import requests
-
 from bs4 import BeautifulSoup
 
 import os
@@ -11,7 +9,6 @@ import os
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from crawler import crawl_campus_news
-
 from database import init_db, get_news
 
 from urllib.parse import urljoin
@@ -26,11 +23,15 @@ CORS(
 )
 
 
+# ====================================
 # 初始化数据库
+# ====================================
 init_db()
 
 
-# 定时抓取校园资讯
+# ====================================
+# 定时抓校园资讯
+# ====================================
 scheduler = BackgroundScheduler()
 
 scheduler.add_job(
@@ -42,14 +43,16 @@ scheduler.add_job(
 scheduler.start()
 
 
+# ====================================
 # 首页
+# ====================================
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
 # ====================================
-# Kimi AI聊天
+# Kimi AI
 # ====================================
 def kimi_chat(messages):
 
@@ -64,24 +67,17 @@ def kimi_chat(messages):
             "https://api.moonshot.cn/v1/chat/completions",
 
             headers={
-
-                "Authorization":
-                    f"Bearer {api_key}",
-
-                "Content-Type":
-                    "application/json"
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json"
             },
 
             json={
 
-                "model":
-                    "moonshot-v1-auto",
+                "model": "moonshot-v1-auto",
 
-                "messages":
-                    messages,
+                "messages": messages,
 
-                "temperature":
-                    0.7
+                "temperature": 0.7
             },
 
             timeout=30
@@ -90,6 +86,9 @@ def kimi_chat(messages):
         data = response.json()
 
         print("Kimi返回：", data)
+
+        if "choices" not in data:
+            return f"AI接口异常：{data}"
 
         return data["choices"][0]["message"]["content"]
 
@@ -111,13 +110,12 @@ def chat():
     reply = kimi_chat(messages)
 
     return jsonify({
-
         "reply": reply
     })
 
 
 # ====================================
-# URL分析接口
+# URL网页分析
 # ====================================
 @app.route("/api/summarize", methods=["POST"])
 def summarize():
@@ -152,17 +150,18 @@ def summarize():
             "html.parser"
         )
 
+        # ====================================
         # 标题
+        # ====================================
         title = (
-
             soup.title.string.strip()
-
             if soup.title
-
             else "无标题"
         )
 
-        # 正文
+        # ====================================
+        # 提取正文
+        # ====================================
         paragraphs = soup.find_all("p")
 
         content = " ".join(
@@ -172,7 +171,6 @@ def summarize():
         content = " ".join(content.split())
 
         if not content:
-
             content = soup.get_text()
 
         content = content[:5000]
@@ -240,11 +238,11 @@ def summarize():
 
 
         # ====================================
-        # 附件提取
+        # 页面附件提取（加强版）
         # ====================================
         attachments = []
 
-        file_exts = [
+        file_keywords = [
 
             ".pdf",
             ".doc",
@@ -261,19 +259,78 @@ def summarize():
 
             href = a.get("href")
 
+            text = a.get_text(strip=True)
+
             if not href:
                 continue
 
+            full_url = urljoin(url, href)
+
+            # ====================================
+            # 方式1：文件后缀
+            # ====================================
             if any(
 
-                href.lower().endswith(ext)
+                ext in full_url.lower()
 
-                for ext in file_exts
+                for ext in file_keywords
             ):
 
-                full_url = urljoin(url, href)
+                attachments.append({
 
-                attachments.append(full_url)
+                    "name":
+                        text if text else full_url,
+
+                    "url":
+                        full_url
+                })
+
+                continue
+
+
+            # ====================================
+            # 方式2：学校资源系统
+            # ====================================
+            if any(
+
+                key in full_url.lower()
+
+                for key in [
+
+                    "download",
+                    "upload",
+                    "resource",
+                    "file",
+                    "附件"
+                ]
+            ):
+
+                attachments.append({
+
+                    "name":
+                        text if text else full_url,
+
+                    "url":
+                        full_url
+                })
+
+
+        # ====================================
+        # 附件去重
+        # ====================================
+        unique = []
+
+        seen = set()
+
+        for item in attachments:
+
+            if item["url"] not in seen:
+
+                seen.add(item["url"])
+
+                unique.append(item)
+
+        attachments = unique
 
 
         return jsonify({
@@ -290,7 +347,6 @@ def summarize():
     except Exception as e:
 
         return jsonify({
-
             "error": str(e)
         })
 
@@ -344,6 +400,9 @@ def after_request(response):
     return response
 
 
+# ====================================
+# 启动
+# ====================================
 if __name__ == "__main__":
 
     app.run(debug=True)
