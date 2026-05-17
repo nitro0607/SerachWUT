@@ -212,9 +212,11 @@ def summarize():
 
 
         # ====================================
-        # 页面链接提取
+        # 页面链接提取（过滤优化）
         # ====================================
         links = []
+
+        seen_links = set()
 
         for a in soup.find_all("a"):
 
@@ -225,15 +227,47 @@ def summarize():
             if not href:
                 continue
 
+            # 过滤垃圾链接
+            if href.startswith("#"):
+                continue
+
+            if href.startswith("javascript"):
+                continue
+
+            if href.startswith("mailto"):
+                continue
+
+            if href.startswith("tel"):
+                continue
+
             full_url = urljoin(url, href)
+
+            # 只保留http
+            if not (
+                full_url.startswith("http://")
+                or
+                full_url.startswith("https://")
+            ):
+                continue
+
+            # 去重
+            if full_url in seen_links:
+                continue
+
+            seen_links.add(full_url)
+
+            if not text:
+                text = full_url
+
+            # 过滤无意义文本
+            if len(text.strip()) <= 1:
+                continue
 
             links.append({
 
-                "text":
-                    text if text else full_url,
+                "text": text,
 
-                "url":
-                    full_url
+                "url": full_url
             })
 
 
@@ -266,9 +300,7 @@ def summarize():
 
             full_url = urljoin(url, href)
 
-            # ====================================
-            # 方式1：文件后缀
-            # ====================================
+            # 文件后缀
             if any(
 
                 ext in full_url.lower()
@@ -288,9 +320,7 @@ def summarize():
                 continue
 
 
-            # ====================================
-            # 方式2：学校资源系统
-            # ====================================
+            # 学校资源系统
             if any(
 
                 key in full_url.lower()
@@ -315,9 +345,7 @@ def summarize():
                 })
 
 
-        # ====================================
-        # 附件去重
-        # ====================================
+        # 去重
         unique = []
 
         seen = set()
@@ -333,6 +361,37 @@ def summarize():
         attachments = unique
 
 
+        # ====================================
+        # 页面图片提取
+        # ====================================
+        images = []
+
+        seen_images = set()
+
+        for img in soup.find_all("img"):
+
+            src = img.get("src")
+
+            if not src:
+                continue
+
+            full_img = urljoin(url, src)
+
+            if not (
+                full_img.startswith("http://")
+                or
+                full_img.startswith("https://")
+            ):
+                continue
+
+            if full_img in seen_images:
+                continue
+
+            seen_images.add(full_img)
+
+            images.append(full_img)
+
+
         return jsonify({
 
             "title": title,
@@ -341,7 +400,9 @@ def summarize():
 
             "links": links[:30],
 
-            "attachments": attachments[:30]
+            "attachments": attachments[:30],
+
+            "images": images[:20]
         })
 
     except Exception as e:
