@@ -1,43 +1,61 @@
 <!DOCTYPE html>
 <html lang="zh">
-
 <head>
 
   <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>SearchWUT</title>
 
-  <link rel="stylesheet" href="/static/style.css">
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-  <h1 class="title">SearchWUT</h1>
+  <!-- 标题 -->
+  <h1 class="main-title">
+    SearchWUT
+  </h1>
+
+  <p class="sub-title">
+    AI智能校园搜索平台
+  </p>
 
 
   <!-- 校园资讯 -->
-  <div class="section">
+  <section class="card">
 
     <h2>🏫 校园资讯</h2>
 
-    <div id="news-list"></div>
+    <div id="news-list">
 
-  </div>
+      正在加载校园资讯...
+
+    </div>
+
+  </section>
 
 
   <!-- URL分析 -->
-  <div class="section">
+  <section class="card">
 
     <h2>🌐 URL网页分析</h2>
 
-    <div class="search-box">
+    <div class="input-group">
 
       <input
-        id="url-input"
         type="text"
+        id="url-input"
         placeholder="输入网页URL"
       >
 
@@ -49,20 +67,24 @@
 
     <div id="url-result"></div>
 
-  </div>
+  </section>
 
 
   <!-- AI聊天 -->
-  <div class="section">
+  <section class="card">
 
     <h2>🤖 AI聊天</h2>
 
-    <div class="search-box">
+    <div class="chat-box" id="chat-box">
+
+    </div>
+
+    <div class="input-group">
 
       <input
-        id="chat-input"
         type="text"
-        placeholder="输入问题"
+        id="chat-input"
+        placeholder="输入问题..."
       >
 
       <button onclick="sendMessage()">
@@ -71,15 +93,15 @@
 
     </div>
 
-    <div id="chat-box"></div>
-
-  </div>
+  </section>
 
 
   <!-- 页脚 -->
   <footer>
 
-    <p>👨‍💻 Nitro0607</p>
+    <p>
+      👨‍💻 Nitro0607
+    </p>
 
     <p>
       📧
@@ -90,7 +112,10 @@
 
     <p>
       💻
-      <a href="https://github.com/nitro0607">
+      <a
+        href="https://github.com/nitro0607"
+        target="_blank"
+      >
         GitHub
       </a>
     </p>
@@ -99,7 +124,7 @@
 
 </div>
 
-<script src="/static/script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
