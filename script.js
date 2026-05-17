@@ -1,47 +1,59 @@
 const API_BASE =
-  "https://你的Render地址.onrender.com";
+  "https://test-1-5r5k.onrender.com";
 
 
-// =========================
-// 加载校园资讯
-// =========================
+// =====================
+// 校园资讯
+// =====================
 async function loadNews() {
 
-  const response = await fetch(
-    `${API_BASE}/api/news`
-  );
-
-  const data = await response.json();
-
-  const newsList =
+  const list =
     document.getElementById("news-list");
 
-  newsList.innerHTML = "";
+  list.innerHTML = "加载中...";
 
-  data.forEach(item => {
+  try {
 
-    newsList.innerHTML += `
+    const response = await fetch(
+      `${API_BASE}/api/news`
+    );
 
-      <div class="news-card">
+    const data = await response.json();
 
-        <h3>${item.title}</h3>
+    list.innerHTML = "";
 
-        <p>${item.summary}</p>
+    data.forEach(item => {
 
-        <a href="${item.url}" target="_blank">
-          查看原文
-        </a>
+      list.innerHTML += `
 
-      </div>
+        <div class="news-card">
 
-    `;
-  });
+          <h3>${item.title}</h3>
+
+          <p>${item.summary}</p>
+
+          <a
+            href="${item.url}"
+            target="_blank"
+          >
+            查看原文
+          </a>
+
+        </div>
+      `;
+    });
+
+  } catch (e) {
+
+    list.innerHTML =
+      "校园资讯加载失败";
+  }
 }
 
 
-// =========================
+// =====================
 // URL分析
-// =========================
+// =====================
 async function analyzeUrl() {
 
   const url =
@@ -50,65 +62,93 @@ async function analyzeUrl() {
   const result =
     document.getElementById("url-result");
 
+  if (!url) return;
+
   result.innerHTML = "分析中...";
 
-  const response = await fetch(
-    `${API_BASE}/api/summarize`,
-    {
-      method: "POST",
+  try {
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+    const response = await fetch(
+      `${API_BASE}/api/summarize`,
+      {
 
-      body: JSON.stringify({ url })
-    }
-  );
+        method: "POST",
 
-  const data = await response.json();
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
 
-  let html = `
+        body: JSON.stringify({
+          url
+        })
+      }
+    );
 
-    <h3>${data.title}</h3>
+    const data = await response.json();
 
-    <p>${data.summary}</p>
+    let html = `
 
-    <h4>🔗 页面链接</h4>
-  `;
+      <h3>${data.title}</h3>
 
-  data.links.forEach(link => {
+      <p>${data.summary}</p>
 
-    html += `
-      <p>
-        <a href="${link.url}" target="_blank">
-          ${link.text || link.url}
-        </a>
-      </p>
+      <h4>🔗 页面链接</h4>
     `;
-  });
 
-  html += `
-    <h4>📎 附件</h4>
-  `;
+    data.links.forEach(link => {
 
-  data.attachments.forEach(file => {
+      html += `
 
-    html += `
-      <p>
-        <a href="${file}" target="_blank">
-          ${file}
-        </a>
-      </p>
-    `;
-  });
+        <p>
 
-  result.innerHTML = html;
+          <a
+            href="${link.url}"
+            target="_blank"
+          >
+
+            ${link.text || link.url}
+
+          </a>
+
+        </p>
+      `;
+    });
+
+    html += `<h4>📎 附件</h4>`;
+
+    data.attachments.forEach(file => {
+
+      html += `
+
+        <p>
+
+          <a
+            href="${file}"
+            target="_blank"
+          >
+
+            ${file}
+
+          </a>
+
+        </p>
+      `;
+    });
+
+    result.innerHTML = html;
+
+  } catch (e) {
+
+    result.innerHTML =
+      "分析失败";
+  }
 }
 
 
-// =========================
+// =====================
 // AI聊天
-// =========================
+// =====================
 let messages = [
 
   {
@@ -128,50 +168,80 @@ async function sendMessage() {
 
   if (!text) return;
 
-  messages.push({
-    role: "user",
-    content: text
-  });
-
-  const chatBox =
+  const box =
     document.getElementById("chat-box");
 
-  chatBox.innerHTML += `
+  box.innerHTML += `
+
     <div class="user-msg">
+
       ${text}
+
     </div>
   `;
 
   input.value = "";
 
-  const response = await fetch(
-    `${API_BASE}/api/chat`,
-    {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        messages
-      })
-    }
-  );
-
-  const data = await response.json();
-
   messages.push({
-    role: "assistant",
-    content: data.reply
+
+    role: "user",
+
+    content: text
   });
 
-  chatBox.innerHTML += `
-    <div class="ai-msg">
-      ${data.reply}
-    </div>
-  `;
+  try {
+
+    const response = await fetch(
+      `${API_BASE}/api/chat`,
+      {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          messages
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    messages.push({
+
+      role: "assistant",
+
+      content: data.reply
+    });
+
+    box.innerHTML += `
+
+      <div class="ai-msg">
+
+        ${data.reply}
+
+      </div>
+    `;
+
+    box.scrollTop =
+      box.scrollHeight;
+
+  } catch (e) {
+
+    box.innerHTML += `
+
+      <div class="ai-msg">
+
+        AI请求失败
+
+      </div>
+    `;
+  }
 }
 
 
+// 初始化
 loadNews();
