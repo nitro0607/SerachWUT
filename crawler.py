@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
 
-NEWS_URL = "https://news.whut.edu.cn/"
+NEWS_URL = "http://i.whut.edu.cn/xxtg/"
 
 
 def crawl_campus_news():
