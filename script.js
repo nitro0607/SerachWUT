@@ -284,7 +284,100 @@ async function analyzeUrl() {
   }
 }
 
+async function searchNotice() {
 
+    const input =
+        document.getElementById(
+            "notice-search-input"
+        ).value.trim();
+
+    const container =
+        document.getElementById(
+            "notice-search-result"
+        );
+
+    if (!input) {
+
+        container.innerHTML =
+            "请输入关键词";
+
+        return;
+    }
+
+    container.innerHTML =
+        "正在搜索...";
+
+    try {
+
+        const response = await fetch(
+
+            `${API_BASE}/api/search_notice`,
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    keyword: input
+                })
+            }
+        );
+
+        const data =
+            await response.json();
+
+        if (!data.length) {
+
+            container.innerHTML =
+                "未找到相关公告";
+
+            return;
+        }
+
+        let html = "";
+
+        data.forEach(item => {
+
+            html += `
+
+            <div class="news-card">
+
+                <a
+                    class="news-title"
+                    href="${item.url}"
+                    target="_blank"
+                >
+
+                    ${item.title}
+
+                </a>
+
+                <div class="news-summary">
+
+                    ${item.summary || ""}
+
+                </div>
+
+            </div>
+
+            `;
+        });
+
+        container.innerHTML = html;
+
+    } catch (err) {
+
+        container.innerHTML =
+            "搜索失败";
+    }
+}
 // ====================================
 // AI聊天（多轮）
 // ====================================
