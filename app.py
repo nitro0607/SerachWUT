@@ -460,6 +460,32 @@ def news():
         })
 
 # ====================================
+# 校内公告接口
+# ====================================
+@app.route("/api/notice")
+def notice():
+
+    try:
+
+        import json
+
+        with open(
+            "campus_notice.json",
+            "r",
+            encoding="utf-8"
+        ) as f:
+
+            notice_list = json.load(f)
+
+        return jsonify(notice_list)
+
+    except Exception as e:
+
+        return jsonify({
+            "error": str(e)
+        })
+
+# ====================================
 # CORS修复
 # ====================================
 @app.after_request
