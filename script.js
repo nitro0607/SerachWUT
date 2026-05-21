@@ -52,7 +52,59 @@ async function loadNews() {
   }
 }
 
+async function loadNotice() {
 
+    const container =
+        document.getElementById(
+            "notice-list"
+        );
+
+    try {
+
+        const response = await fetch(
+
+            `${API_BASE}/api/notice`
+
+        );
+
+        const data = await response.json();
+
+        if (!data.length) {
+
+            container.innerHTML =
+                "暂无校内公告";
+
+            return;
+        }
+
+        let html = "";
+
+        data.forEach(item => {
+
+            html += `
+
+            <div class="news-item">
+
+                <a href="${item.url}"
+                   target="_blank">
+
+                   ${item.title}
+
+                </a>
+
+            </div>
+
+            `;
+        });
+
+        container.innerHTML = html;
+
+    } catch (err) {
+
+        container.innerHTML =
+            "校内公告获取失败";
+    }
+}
 // ====================================
 // URL网页分析
 // ====================================
@@ -333,3 +385,4 @@ async function sendMessage() {
 
 // 初始化
 loadNews();
+loadNotice();
