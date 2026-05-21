@@ -477,14 +477,16 @@ def notice():
 
             notice_list = json.load(f)
 
-        return jsonify(notice_list)
+        # 只返回前30条
+        return jsonify(
+            notice_list[:30]
+        )
 
     except Exception as e:
 
         return jsonify({
             "error": str(e)
         })
-
 # ====================================
 # CORS修复
 # ====================================
