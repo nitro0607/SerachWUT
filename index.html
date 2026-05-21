@@ -20,149 +20,302 @@
 
 <body>
 
-<div class="container">
+<div class="layout">
 
-  <!-- 标题 -->
-  <h1 class="main-title">
-    SearchWUT
-  </h1>
+  <!-- 左侧学院导航 -->
+  <aside class="sidebar">
 
-  <p class="sub-title">
-    AI智能校园搜索平台
-  </p>
+    <h2>🏫 学院导航</h2>
 
-  <!-- AI公告搜索 -->
-<section class="card">
+    <div class="college-list">
 
-  <h2>🔍 公告搜索 信息库更新同校内公告栏目 多条匹配只显示前十条</h2>
+      <a href="https://smse.whut.edu.cn" target="_blank">材料学院</a>
 
-  <div class="input-group">
-
-    <input
-      type="text"
-      id="notice-search-input"
-      placeholder="输入关键词"
-    >
-
-    <button onclick="searchNotice()">
-      搜索
-    </button>
-
-  </div>
-
-  <div id="notice-search-result">
-
-  </div>
-
-</section>
-
-  <!-- 校园资讯 -->
-  <section class="card">
-
-    <h2>🏫 校园资讯</h2>
-
-    <div id="news-list">
-
-      正在加载校园资讯...
-
-    </div>
-
-  </section>
-
-
-  <!-- 新增：校内公告 -->
-  <section class="card">
-
-    <h2>📢 校内公告 最后更新时间:2026/5/21 10:00:00</h2>
-
-    <div id="notice-list">
-
-      正在加载校内公告...
-
-    </div>
-
-  </section>
-
-
-  <!-- URL分析 -->
-  <section class="card">
-
-    <h2>🌐 URL网页分析</h2>
-
-    <div class="input-group">
-
-      <input
-        type="text"
-        id="url-input"
-        placeholder="输入网页URL"
-      >
-
-      <button onclick="analyzeUrl()">
-        分析
-      </button>
-
-    </div>
-
-    <div id="url-result"></div>
-
-  </section>
-
-
-  <!-- AI聊天 -->
-  <section class="card">
-
-    <h2>🤖 AI聊天</h2>
-
-    <div class="chat-box" id="chat-box">
-
-    </div>
-
-    <div class="input-group">
-
-      <input
-        type="text"
-        id="chat-input"
-        placeholder="输入问题..."
-      >
-
-      <button onclick="sendMessage()">
-        发送
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- 页脚 -->
-  <footer>
-
-    <p>
-      👨‍💻 Nitro0607
-    </p>
-
-    <p>
-      📧
-      <a href="mailto:1295422173@qq.com">
-        1295422173@qq.com
+      <a href="https://ismse.whut.edu.cn" target="_blank">
+        材料示范学院
       </a>
-    </p>
 
-    <p>
-      💻
-      <a
-        href="https://github.com/nitro0607"
-        target="_blank"
-      >
-        GitHub
+      <a href="https://stle.whut.edu.cn" target="_blank">
+        交通物流学院
       </a>
+
+      <a href="https://naoep.whut.edu.cn" target="_blank">
+        船海能动学院
+      </a>
+
+      <a href="https://auto.whut.edu.cn" target="_blank">
+        汽车学院
+      </a>
+
+      <a href="https://smee.whut.edu.cn" target="_blank">
+        机电学院
+      </a>
+
+      <a href="https://scea.whut.edu.cn" target="_blank">
+        土建学院
+      </a>
+
+      <a href="https://sree.whut.edu.cn" target="_blank">
+        资环学院
+      </a>
+
+      <a href="https://wutinfo.whut.edu.cn" target="_blank">
+        信息学院
+      </a>
+
+      <a href="https://csai.whut.edu.cn" target="_blank">
+        计算机智能学院
+      </a>
+
+      <a href="https://sa.whut.edu.cn" target="_blank">
+        自动化学院
+      </a>
+
+      <a href="https://sn.whut.edu.cn" target="_blank">
+        航运学院
+      </a>
+
+      <a href="https://maths.whut.edu.cn" target="_blank">
+        数统学院
+      </a>
+
+      <a href="https://phymech.whut.edu.cn" target="_blank">
+        物理与力学学院
+      </a>
+
+      <a href="https://sccels.whut.edu.cn" target="_blank">
+        化生学院
+      </a>
+
+      <a href="https://som.whut.edu.cn" target="_blank">
+        管理学院
+      </a>
+
+      <a href="https://econ.whut.edu.cn" target="_blank">
+        经济学院
+      </a>
+
+      <a href="https://a-d.whut.edu.cn" target="_blank">
+        艺设学院
+      </a>
+
+      <a href="https://sfl.whut.edu.cn" target="_blank">
+        外语学院
+      </a>
+
+      <a href="https://mkszyxy.whut.edu.cn" target="_blank">
+        马克思主义学院
+      </a>
+
+      <a href="https://wenfa.whut.edu.cn" target="_blank">
+        法学社会学院
+      </a>
+
+      <a href="https://sem.whut.edu.cn" target="_blank">
+        安全应急学院
+      </a>
+
+      <a href="https://sie.whut.edu.cn" target="_blank">
+        国教学院
+      </a>
+
+      <a href="https://sen.whut.edu.cn" target="_blank">
+        创业学院
+      </a>
+
+      <a href="https://wyy.whut.edu.cn" target="_blank">
+        国家卓越工程师学院
+      </a>
+
+      <a href="https://sports.whut.edu.cn" target="_blank">
+        体育学院
+      </a>
+
+      <a href="https://xysfq.whut.edu.cn" target="_blank">
+        襄阳示范区
+      </a>
+
+      <a href="https://hnsy.whut.edu.cn" target="_blank">
+        三亚科教园
+      </a>
+
+      <a href="https://xcs.whut.edu.cn" target="_blank">
+        新材所
+      </a>
+
+      <a href="https://fost.whut.edu.cn" target="_blank">
+        光纤中心
+      </a>
+
+      <a href="https://silicate.whut.edu.cn" target="_blank">
+        硅酸盐中心
+      </a>
+
+      <a href="https://its.whut.edu.cn" target="_blank">
+        智能交通中心
+      </a>
+
+      <a href="https://gssc.whut.edu.cn" target="_blank">
+        船舶邮轮中心
+      </a>
+
+    </div>
+
+  </aside>
+
+
+  <!-- 主内容 -->
+  <main class="container">
+
+    <!-- 标题 -->
+    <h1 class="main-title">
+      SearchWUT
+    </h1>
+
+    <p class="sub-title">
+      AI智能校园搜索平台
     </p>
 
-    <p style="margin-top:10px;color:#888;">
-      © 2026 SearchWUT
-    </p>
 
-  </footer>
+    <!-- AI公告搜索 -->
+    <section class="card">
+
+      <h2>
+        🔍 公告搜索
+      </h2>
+
+      <div class="input-group">
+
+        <input
+          type="text"
+          id="notice-search-input"
+          placeholder="输入关键词"
+        >
+
+        <button onclick="searchNotice()">
+          搜索
+        </button>
+
+      </div>
+
+      <div id="notice-search-result">
+
+      </div>
+
+    </section>
+
+
+    <!-- 校园资讯 -->
+    <section class="card">
+
+      <h2>🏫 校园资讯</h2>
+
+      <div id="news-list">
+
+        正在加载校园资讯...
+
+      </div>
+
+    </section>
+
+
+    <!-- 校内公告 -->
+    <section class="card">
+
+      <h2>
+        📢 校内公告
+      </h2>
+
+      <div id="notice-list">
+
+        正在加载校内公告...
+
+      </div>
+
+    </section>
+
+
+    <!-- URL分析 -->
+    <section class="card">
+
+      <h2>🌐 URL网页分析</h2>
+
+      <div class="input-group">
+
+        <input
+          type="text"
+          id="url-input"
+          placeholder="输入网页URL"
+        >
+
+        <button onclick="analyzeUrl()">
+          分析
+        </button>
+
+      </div>
+
+      <div id="url-result"></div>
+
+    </section>
+
+
+    <!-- AI聊天 -->
+    <section class="card">
+
+      <h2>🤖 AI聊天</h2>
+
+      <div class="chat-box" id="chat-box">
+
+      </div>
+
+      <div class="input-group">
+
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="输入问题..."
+        >
+
+        <button onclick="sendMessage()">
+          发送
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- 页脚 -->
+    <footer>
+
+      <p>
+        👨‍💻 Nitro0607
+      </p>
+
+      <p>
+        📧
+        <a href="mailto:1295422173@qq.com">
+          1295422173@qq.com
+        </a>
+      </p>
+
+      <p>
+        💻
+        <a
+          href="https://github.com/nitro0607"
+          target="_blank"
+        >
+          GitHub
+        </a>
+      </p>
+
+      <p style="margin-top:10px;color:#888;">
+        © 2026 SearchWUT
+      </p>
+
+    </footer>
+
+  </main>
 
 </div>
 
