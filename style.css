@@ -1,214 +1,359 @@
 * {
-
-  margin: 0;
-
-  padding: 0;
-
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 
+/* 页面背景 */
 body {
 
-  background: #0f172a;
+    font-family:
+        "Microsoft YaHei",
+        Arial,
+        sans-serif;
 
-  color: white;
+    background:
+        linear-gradient(
+            180deg,
+            #eaf4ff 0%,
+            #dceeff 100%
+        );
 
-  font-family: Arial, sans-serif;
+    min-height: 100vh;
+
+    color: #333;
 }
 
 
+/* 主容器 */
 .container {
 
-  width: 90%;
+    width: 90%;
 
-  max-width: 1100px;
+    max-width: 1100px;
 
-  margin: auto;
+    margin: auto;
 
-  padding: 40px 0;
+    padding: 30px 0;
 }
 
 
+/* 标题 */
 .main-title {
 
-  text-align: center;
+    text-align: center;
 
-  font-size: 54px;
+    font-size: 52px;
 
-  margin-bottom: 10px;
+    color: #1677ff;
+
+    margin-bottom: 10px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
 }
 
 
+/* 副标题 */
 .sub-title {
 
-  text-align: center;
+    text-align: center;
 
-  color: #94a3b8;
+    color: #666;
 
-  margin-bottom: 40px;
+    margin-bottom: 40px;
+
+    font-size: 18px;
 }
 
 
+/* 卡片 */
 .card {
 
-  background: #1e293b;
+    background: white;
 
-  padding: 25px;
+    border-radius: 18px;
 
-  border-radius: 20px;
+    padding: 24px;
 
-  margin-bottom: 30px;
+    margin-bottom: 28px;
+
+    box-shadow:
+        0 6px 20px rgba(0,0,0,0.08);
+
+    transition: 0.3s;
 }
 
 
+/* 卡片悬浮 */
+.card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,0.12);
+}
+
+
+/* 卡片标题 */
 .card h2 {
 
-  margin-bottom: 20px;
+    margin-bottom: 20px;
+
+    color: #1677ff;
+
+    font-size: 24px;
 }
 
 
+/* 输入框组 */
 .input-group {
 
-  display: flex;
+    display: flex;
 
-  gap: 10px;
+    gap: 12px;
 
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 
+/* 输入框 */
 input {
 
-  flex: 1;
+    flex: 1;
 
-  padding: 14px;
+    padding: 14px;
 
-  border-radius: 12px;
+    border: 1px solid #cfdfff;
 
-  border: none;
+    border-radius: 12px;
 
-  outline: none;
+    outline: none;
 
-  font-size: 16px;
+    font-size: 16px;
+
+    transition: 0.3s;
 }
 
 
+/* 输入框聚焦 */
+input:focus {
+
+    border-color: #1677ff;
+
+    box-shadow:
+        0 0 8px rgba(22,119,255,0.2);
+}
+
+
+/* 按钮 */
 button {
 
-  padding: 14px 24px;
+    padding: 14px 24px;
 
-  border: none;
+    border: none;
 
-  border-radius: 12px;
+    border-radius: 12px;
 
-  background: #3b82f6;
+    background: #1677ff;
 
-  color: white;
+    color: white;
 
-  cursor: pointer;
+    font-size: 16px;
 
-  font-size: 16px;
+    cursor: pointer;
+
+    transition: 0.3s;
 }
 
 
+/* 按钮悬浮 */
 button:hover {
 
-  background: #2563eb;
+    background: #4096ff;
+
+    transform: scale(1.03);
 }
 
 
-.news-card {
-
-  background: #334155;
-
-  padding: 18px;
-
-  border-radius: 14px;
-
-  margin-bottom: 15px;
-}
-
-
-.news-card h3 {
-
-  margin-bottom: 10px;
-}
-
-
-.news-card p {
-
-  color: #cbd5e1;
-
-  margin-bottom: 10px;
-}
-
-
-.news-card a {
-
-  color: #60a5fa;
-}
-
-
-.chat-box {
-
-  max-height: 500px;
-
-  overflow-y: auto;
-
-  margin-bottom: 20px;
-}
-
-
-.user-msg {
-
-  background: #2563eb;
-
-  padding: 12px;
-
-  border-radius: 12px;
-
-  margin-bottom: 12px;
-
-  text-align: right;
-}
-
-
-.ai-msg {
-
-  background: #475569;
-
-  padding: 12px;
-
-  border-radius: 12px;
-
-  margin-bottom: 12px;
-}
-
-
+/* URL分析结果 */
 #url-result {
 
-  margin-top: 20px;
+    margin-top: 20px;
+
+    line-height: 1.8;
 }
 
 
-#url-result a {
+/* 新闻项 */
+.news-item {
 
-  color: #60a5fa;
+    margin-bottom: 16px;
+
+    padding-bottom: 12px;
+
+    border-bottom:
+        1px solid #eee;
 }
 
 
+/* 新闻链接 */
+.news-item a {
+
+    color: #1677ff;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+
+/* 新闻链接悬浮 */
+.news-item a:hover {
+
+    color: #4096ff;
+
+    text-decoration: underline;
+}
+
+
+/* AI聊天框 */
+.chat-box {
+
+    height: 350px;
+
+    overflow-y: auto;
+
+    border:
+        1px solid #dceeff;
+
+    border-radius: 14px;
+
+    padding: 16px;
+
+    margin-bottom: 20px;
+
+    background: #f8fbff;
+}
+
+
+/* 聊天气泡 */
+.message {
+
+    margin-bottom: 16px;
+
+    padding: 12px 16px;
+
+    border-radius: 14px;
+
+    max-width: 80%;
+
+    line-height: 1.7;
+
+    word-break: break-word;
+}
+
+
+/* 用户消息 */
+.user {
+
+    background: #1677ff;
+
+    color: white;
+
+    margin-left: auto;
+}
+
+
+/* AI消息 */
+.ai {
+
+    background: #edf5ff;
+
+    color: #333;
+
+    margin-right: auto;
+}
+
+
+/* 图片展示 */
+.result-image {
+
+    width: 100%;
+
+    max-width: 320px;
+
+    border-radius: 12px;
+
+    margin-top: 12px;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.08);
+}
+
+
+/* 附件区域 */
+.attachment {
+
+    margin-top: 10px;
+}
+
+
+/* 页脚 */
 footer {
 
-  text-align: center;
+    text-align: center;
 
-  margin-top: 50px;
+    margin-top: 50px;
 
-  color: #94a3b8;
+    color: #666;
+
+    padding-bottom: 30px;
+
+    line-height: 2;
 }
 
 
+/* 页脚链接 */
 footer a {
 
-  color: #60a5fa;
+    color: #1677ff;
+
+    text-decoration: none;
+}
+
+
+/* 页脚链接悬浮 */
+footer a:hover {
+
+    text-decoration: underline;
+}
+
+
+/* 手机适配 */
+@media (max-width: 768px) {
+
+    .main-title {
+
+        font-size: 38px;
+    }
+
+    .input-group {
+
+        flex-direction: column;
+    }
+
+    button {
+
+        width: 100%;
+    }
+
+    .chat-box {
+
+        height: 300px;
+    }
 }
