@@ -357,3 +357,143 @@ footer a:hover {
         height: 300px;
     }
 }
+/* =========================
+   页面整体布局
+========================= */
+.layout {
+
+    display: flex;
+
+    min-height: 100vh;
+}
+
+
+/* =========================
+   左侧侧边栏
+========================= */
+.sidebar {
+
+    width: 280px;
+
+    background: rgba(255,255,255,0.92);
+
+    backdrop-filter: blur(12px);
+
+    padding: 24px;
+
+    border-right:
+        1px solid #dceeff;
+
+    position: sticky;
+
+    top: 0;
+
+    height: 100vh;
+
+    overflow-y: auto;
+
+    box-shadow:
+        2px 0 12px rgba(0,0,0,0.05);
+}
+
+
+/* 侧边栏标题 */
+.sidebar h2 {
+
+    color: #1677ff;
+
+    margin-bottom: 20px;
+
+    font-size: 24px;
+}
+
+
+/* 学院列表 */
+.college-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+/* 学院按钮 */
+.college-list a {
+
+    text-decoration: none;
+
+    color: #333;
+
+    padding: 12px 14px;
+
+    border-radius: 12px;
+
+    transition: 0.25s;
+
+    background: #f7fbff;
+
+    border:
+        1px solid transparent;
+
+    font-size: 15px;
+}
+
+
+/* 学院按钮悬浮 */
+.college-list a:hover {
+
+    background: #eaf4ff;
+
+    color: #1677ff;
+
+    border-color: #b7d3ff;
+
+    transform: translateX(3px);
+}
+
+
+/* 主区域 */
+.container {
+
+    flex: 1;
+
+    padding: 30px;
+}
+
+
+/* =========================
+   手机适配
+========================= */
+@media (max-width: 768px) {
+
+    .layout {
+
+        flex-direction: column;
+    }
+
+    .sidebar {
+
+        width: 100%;
+
+        height: auto;
+
+        position: relative;
+
+        border-right: none;
+
+        border-bottom:
+            1px solid #dceeff;
+    }
+
+    .college-list {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap: 10px;
+    }
+}
