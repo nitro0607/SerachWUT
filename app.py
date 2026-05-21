@@ -487,6 +487,94 @@ def notice():
         return jsonify({
             "error": str(e)
         })
+
+# ====================================
+# AI公告搜索
+# ====================================
+@app.route("/api/search_notice", methods=["POST"])
+def search_notice():
+
+    try:
+
+        import json
+
+        data = request.get_json()
+
+        keyword = data.get("keyword", "")
+
+        keyword = keyword.strip()
+
+        if not keyword:
+
+            return jsonify([])
+
+        # 读取公告库
+        with open(
+            "campus_notice.json",
+            "r",
+            encoding="utf-8"
+        ) as f:
+
+            notices = json.load(f)
+
+        results = []
+
+        # 简单相似搜索
+        for item in notices:
+
+            title = item.get(
+                "title",
+                ""
+            )
+
+            summary = item.get(
+                "summary",
+                ""
+            )
+
+            score = 0
+
+            # 标题命中
+            if keyword in title:
+
+                score += 10
+
+            # 摘要命中
+            if keyword in summary:
+
+                score += 5
+
+            # 分词简单匹配
+            for word in keyword.split():
+
+                if word in title:
+
+                    score += 3
+
+            if score > 0:
+
+                item["score"] = score
+
+                results.append(item)
+
+        # 按相关度排序
+        results.sort(
+
+            key=lambda x: x["score"],
+
+            reverse=True
+        )
+
+        # 返回前10条
+        return jsonify(
+            results[:10]
+        )
+
+    except Exception as e:
+
+        return jsonify({
+            "error": str(e)
+        })
 # ====================================
 # CORS修复
 # ====================================
