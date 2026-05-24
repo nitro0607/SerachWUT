@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 
 import json
 import time
+import os
 
 
 BASE_URL = "http://i.whut.edu.cn/xxtg/"
@@ -14,15 +15,58 @@ headers = {
 }
 
 
-notice_list = []
+# ====================================
+# 读取已有JSON
+# ====================================
+old_data = []
 
+if os.path.exists(
+    "campus_notice.json"
+):
+
+    try:
+
+        with open(
+
+            "campus_notice.json",
+
+            "r",
+
+            encoding="utf-8"
+
+        ) as f:
+
+            old_data = json.load(f)
+
+    except:
+
+        old_data = []
+
+
+# ====================================
+# 已有URL集合
+# ====================================
 seen = set()
 
+for item in old_data:
+
+    url = item.get("url")
+
+    if url:
+
+        seen.add(url)
+
 
 # ====================================
-# 遍历29页
+# 新公告列表
 # ====================================
-for page in range(29):
+new_notice_list = []
+
+
+# ====================================
+# 只遍历前10页
+# ====================================
+for page in range(10):
 
     try:
 
@@ -75,7 +119,9 @@ for page in range(29):
             if not href:
                 continue
 
-            # 过滤过短标题
+            # ====================================
+            # 过滤标题过短
+            # ====================================
             if len(title) < 6:
                 continue
 
@@ -84,13 +130,9 @@ for page in range(29):
                 href
             )
 
-            # 去重
-            if full_url in seen:
-                continue
-
-            seen.add(full_url)
-
-            # 只保留文章页
+            # ====================================
+            # 只保留正文页
+            # ====================================
             if not (
 
                 ".html" in full_url
@@ -101,7 +143,26 @@ for page in range(29):
             ):
                 continue
 
-            notice_list.append({
+            # ====================================
+            # 必须包含正文日期
+            # 例如：
+            # t20260522_xxx.shtml
+            # ====================================
+            if "/t20" not in full_url:
+                continue
+
+            # ====================================
+            # 去重
+            # ====================================
+            if full_url in seen:
+                continue
+
+            seen.add(full_url)
+
+            # ====================================
+            # 新公告
+            # ====================================
+            new_notice_list.append({
 
                 "title": title,
 
@@ -120,9 +181,44 @@ for page in range(29):
 
 
 # ====================================
+# 新公告插入前面
+# ====================================
+final_list = (
+    new_notice_list
+    +
+    old_data
+)
+
+
+# ====================================
+# 最终去重
+# 防止历史重复
+# ====================================
+unique = []
+
+final_seen = set()
+
+for item in final_list:
+
+    url = item.get("url")
+
+    if not url:
+        continue
+
+    if url in final_seen:
+        continue
+
+    final_seen.add(url)
+
+    unique.append(item)
+
+
+# ====================================
 # 保存JSON
 # ====================================
-print("总共抓取：", len(notice_list))
+print("新增公告：", len(new_notice_list))
+
+print("最终总数：", len(unique))
 
 with open(
 
@@ -136,7 +232,7 @@ with open(
 
     json.dump(
 
-        notice_list,
+        unique,
 
         f,
 
