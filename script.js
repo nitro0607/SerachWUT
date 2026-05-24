@@ -479,3 +479,14 @@ async function sendMessage() {
 // 初始化
 loadNews();
 loadNotice();
+// =========================
+// 侧栏收起
+// =========================
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.querySelector(".sidebar");
+
+    sidebar.classList.toggle("hidden");
+}
