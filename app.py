@@ -575,6 +575,10 @@ def search_notice():
 
                 notice_date = match.group(1)
 
+            else:
+                
+                continue
+
             # =========================
             # 时间筛选
             # =========================
