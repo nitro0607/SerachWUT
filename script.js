@@ -286,17 +286,27 @@ async function analyzeUrl() {
 
 async function searchNotice() {
 
-    const input =
+    const keyword =
         document.getElementById(
             "notice-search-input"
         ).value.trim();
+
+    const startDate =
+        document.getElementById(
+            "start-date"
+        ).value;
+
+    const endDate =
+        document.getElementById(
+            "end-date"
+        ).value;
 
     const container =
         document.getElementById(
             "notice-search-result"
         );
 
-    if (!input) {
+    if (!keyword) {
 
         container.innerHTML =
             "请输入关键词";
@@ -325,7 +335,11 @@ async function searchNotice() {
 
                 body: JSON.stringify({
 
-                    keyword: input
+                    keyword: keyword,
+
+                    start_date: startDate,
+
+                    end_date: endDate
                 })
             }
         );
@@ -362,6 +376,17 @@ async function searchNotice() {
                 <div class="news-summary">
 
                     ${item.summary || ""}
+
+                </div>
+
+                <div style="
+                    margin-top:8px;
+                    color:#888;
+                    font-size:13px;
+                ">
+
+                    发布时间：
+                    ${item.date || "未知"}
 
                 </div>
 
