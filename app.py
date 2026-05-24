@@ -556,11 +556,15 @@ def search_notice():
             score = 0
 
             # =========================
-            # 提取时间
+            # 提取完整日期
+            # 从：
+            # t20260522_xxx.shtml
+            # 提取：
+            # 20260522
             # =========================
             match = re.search(
 
-                r"/(\d{6})/",
+                r"t(\d{8})",
 
                 url
             )
@@ -634,14 +638,18 @@ def search_notice():
 
                 item["score"] = score
 
+                # =========================
                 # 格式化时间
-                if len(notice_date) == 6:
+                # =========================
+                if len(notice_date) == 8:
 
                     item["date"] = (
 
                         notice_date[:4]
                         + "-"
                         + notice_date[4:6]
+                        + "-"
+                        + notice_date[6:8]
 
                     )
 
