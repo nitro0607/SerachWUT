@@ -497,18 +497,32 @@ def search_notice():
     try:
 
         import json
+        import re
 
         data = request.get_json()
 
-        keyword = data.get("keyword", "")
+        keyword = data.get(
+            "keyword",
+            ""
+        ).strip()
 
-        keyword = keyword.strip()
+        start_date = data.get(
+            "start_date",
+            ""
+        )
+
+        end_date = data.get(
+            "end_date",
+            ""
+        )
 
         if not keyword:
 
             return jsonify([])
 
+        # =========================
         # 读取公告库
+        # =========================
         with open(
             "campus_notice.json",
             "r",
@@ -519,7 +533,9 @@ def search_notice():
 
         results = []
 
-        # 简单相似搜索
+        # =========================
+        # 搜索
+        # =========================
         for item in notices:
 
             title = item.get(
@@ -532,32 +548,112 @@ def search_notice():
                 ""
             )
 
+            url = item.get(
+                "url",
+                ""
+            )
+
             score = 0
 
-            # 标题命中
+            # =========================
+            # 提取时间
+            # =========================
+            match = re.search(
+
+                r"/(\d{6})/",
+
+                url
+            )
+
+            notice_date = ""
+
+            if match:
+
+                notice_date = match.group(1)
+
+            # =========================
+            # 时间筛选
+            # =========================
+            if start_date:
+
+                start_compare = (
+                    start_date.replace("-", "")
+                )
+
+                if (
+                    notice_date
+                    and
+                    notice_date < start_compare
+                ):
+                    continue
+
+            if end_date:
+
+                end_compare = (
+                    end_date.replace("-", "")
+                )
+
+                if (
+                    notice_date
+                    and
+                    notice_date > end_compare
+                ):
+                    continue
+
+            # =========================
+            # 标题匹配
+            # =========================
             if keyword in title:
 
                 score += 10
 
-            # 摘要命中
+            # =========================
+            # 摘要匹配
+            # =========================
             if keyword in summary:
 
                 score += 5
 
-            # 分词简单匹配
+            # =========================
+            # 分词匹配
+            # =========================
             for word in keyword.split():
 
                 if word in title:
 
                     score += 3
 
+                if word in summary:
+
+                    score += 1
+
+            # =========================
+            # 命中
+            # =========================
             if score > 0:
 
                 item["score"] = score
 
+                # 格式化时间
+                if len(notice_date) == 6:
+
+                    item["date"] = (
+
+                        notice_date[:4]
+                        + "-"
+                        + notice_date[4:6]
+
+                    )
+
+                else:
+
+                    item["date"] = "未知"
+
                 results.append(item)
 
-        # 按相关度排序
+        # =========================
+        # 排序
+        # =========================
         results.sort(
 
             key=lambda x: x["score"],
@@ -565,7 +661,9 @@ def search_notice():
             reverse=True
         )
 
+        # =========================
         # 返回前10条
+        # =========================
         return jsonify(
             results[:10]
         )
@@ -573,6 +671,7 @@ def search_notice():
     except Exception as e:
 
         return jsonify({
+
             "error": str(e)
         })
 # ====================================
